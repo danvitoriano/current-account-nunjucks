@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "parts/_template.njk" %}
 
-<head>
-    <meta charset=utf-8>
-    <title>Contact</title>
-    <link rel="stylesheet" href='css/styles.css' />
-</head>
+{% block main %}
+
 <ul id="myUL">
-    <li>Hit the gys</li>
-    <li>Pay bills</li>
-    <li>Meet George</li>
-    <li>Buy eggs</li>
-    <li>Read a book</li>
-    <li>Organize office</li>
+  {% for feature in features %}
+      <li>{{ feature.value }}</li>
+  {% endfor %}
 </ul>
-<script src="js/todo.js"></script>
 
-</html>
+{% endblock %}

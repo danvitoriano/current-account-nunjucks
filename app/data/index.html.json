@@ -1,0 +1,11 @@
+{
+  "page_title": "Balance - My Bank Account",
+  "features": [
+    { "value": "Hit the gyms" },
+    { "value": "Pay bills" },
+    { "value": "Meet George" },
+    { "value": "Buy eggs" },
+    { "value": "Read a book" },
+    { "value": "Organize office" }
+  ]
+}

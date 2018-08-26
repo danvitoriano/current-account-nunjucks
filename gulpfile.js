@@ -16,7 +16,7 @@ var configuration = {
       css: "./app/css/styles.css",
       scss: "./app/scss/styles.scss",
       parts: "./app/parts/_template.njk",
-      js: "./app/js/todo.js",
+      js: "./app/js/*.js",
       data: "./app/data/*.json"
     },
     dist: "./dist"

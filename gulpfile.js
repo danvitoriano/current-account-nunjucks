@@ -1,44 +1,81 @@
-const gulp = require("gulp");
-const nunjucks = require("gulp-nunjucks");
+// Add our dependencies
+var gulp = require("gulp"), // Main Gulp module
+  open = require("gulp-open"), // Gulp browser opening plugin
+  connect = require("gulp-connect"), // Gulp Web server runner plugin
+  sass = require("gulp-sass");
 
-gulp.task("default", () =>
+// Configuration
+var configuration = {
+  paths: {
+    src: {
+      html: "./app/*.html",
+      css: "./app/css/styles.css",
+      scss: "./app/scss/styles.scss",
+      js: "./app/js/todo.js"
+    },
+    dist: "./dist"
+  },
+  localServer: {
+    port: 8001,
+    url: "http://localhost:8001/"
+  }
+};
+
+// Gulp task to copy HTML files to output directory
+gulp.task("html", function() {
   gulp
-    .src("index.html")
-    .pipe(
-      nunjucks.compile({
-        page_title: "Cool Product",
-        features: [
-          {
-            name: "Speed",
-            description: "It's fast."
-          },
-          {
-            name: "Reliability",
-            description: "You can count on it."
-          },
-          {
-            name: "Security",
-            description: "You don't have to worry about it."
-          }
-        ],
-        colors: [
-          {
-            color_name: "brandColor",
-            color_value: "#f06d06",
-            color_notes: "Our main color."
-          },
-          {
-            color_name: "brandHighlight",
-            color_value: "#d0b000",
-            color_notes: "For callouts and highlights."
-          },
-          {
-            color_name: "grayDark",
-            color_value: "#333333",
-            color_notes: "For things like code block backgrounds."
-          }
-        ]
-      })
-    )
-    .pipe(gulp.dest("dist"))
-);
+    .src(configuration.paths.src.html)
+    .pipe(gulp.dest(configuration.paths.dist))
+    .pipe(connect.reload());
+});
+
+// Gulp task to convert SASS to CSS
+gulp.task("scss", function() {
+  return gulp
+    .src("app/scss/**/*.scss")
+    .pipe(sass())
+    .pipe(gulp.dest("app/css"));
+});
+
+// Gulp task to concatenate our css files
+gulp.task("css", ["scss"], function() {
+  gulp
+    .src(configuration.paths.src.css)
+    .pipe(gulp.dest(configuration.paths.dist + "/css"))
+    .pipe(connect.reload());
+});
+
+// Gulp task to concatenate our js files
+gulp.task("js", function() {
+  gulp
+    .src(configuration.paths.src.js)
+    .pipe(gulp.dest(configuration.paths.dist + "/js"))
+    .pipe(connect.reload());
+});
+
+// Gulp task to create a web server
+gulp.task("connect", function() {
+  connect.server({
+    root: "dist",
+    port: configuration.localServer.port,
+    livereload: true
+  });
+});
+
+// Gulp task to open the default web browser
+gulp.task("open", function() {
+  gulp
+    .src("dist/index.html")
+    .pipe(open({ uri: configuration.localServer.url }));
+});
+
+// Watch the file system and reload the website automatically
+gulp.task("watch", function() {
+  gulp.watch(configuration.paths.src.html, ["html"]);
+  gulp.watch(configuration.paths.src.scss, ["scss"]);
+  gulp.watch(configuration.paths.src.css, ["css"]);
+  gulp.watch(configuration.paths.src.js, ["js"]);
+});
+
+// Gulp default task
+gulp.task("default", ["html", "css", "js", "connect", "open", "watch"]);

@@ -2,7 +2,11 @@
 var gulp = require("gulp"), // Main Gulp module
   open = require("gulp-open"), // Gulp browser opening plugin
   connect = require("gulp-connect"), // Gulp Web server runner plugin
-  sass = require("gulp-sass");
+  sass = require("gulp-sass"), // Gulp sass to css compiler
+  nunjucks = require("gulp-nunjucks"), // gulp compile nunjucks templates
+  data = require("gulp-data"), // gulp data converter to nunjucks
+  fs = require("fs"), // file system
+  path = require("path"); // file path
 
 // Configuration
 var configuration = {
@@ -11,7 +15,9 @@ var configuration = {
       html: "./app/*.html",
       css: "./app/css/styles.css",
       scss: "./app/scss/styles.scss",
-      js: "./app/js/todo.js"
+      parts: "./app/parts/_template.njk",
+      js: "./app/js/todo.js",
+      data: "./app/data/*.json"
     },
     dist: "./dist"
   },
@@ -21,10 +27,18 @@ var configuration = {
   }
 };
 
-// Gulp task to copy HTML files to output directory
+// Gulp task to copy HTML files to output directory and complie Nunjucks templates
 gulp.task("html", function() {
   gulp
     .src(configuration.paths.src.html)
+    .pipe(
+      data(function(file) {
+        return JSON.parse(
+          fs.readFileSync("./app/data/" + path.basename(file.path) + ".json")
+        );
+      })
+    )
+    .pipe(nunjucks.compile())
     .pipe(gulp.dest(configuration.paths.dist))
     .pipe(connect.reload());
 });
@@ -75,6 +89,8 @@ gulp.task("watch", function() {
   gulp.watch(configuration.paths.src.scss, ["scss"]);
   gulp.watch(configuration.paths.src.css, ["css"]);
   gulp.watch(configuration.paths.src.js, ["js"]);
+  gulp.watch(configuration.paths.src.parts, ["html"]);
+  gulp.watch(configuration.paths.src.data, ["html"]);
 });
 
 // Gulp default task

@@ -1,6 +1,5 @@
 // Add our dependencies
 var gulp = require("gulp"), // Main Gulp module
-  concat = require("gulp-concat"), // Gulp File concatenation plugin
   open = require("gulp-open"), // Gulp browser opening plugin
   connect = require("gulp-connect"), // Gulp Web server runner plugin
   sass = require("gulp-sass");
@@ -42,7 +41,6 @@ gulp.task("scss", function() {
 gulp.task("css", ["scss"], function() {
   gulp
     .src(configuration.paths.src.css)
-    // .pipe(concat("site.css"))
     .pipe(gulp.dest(configuration.paths.dist + "/css"))
     .pipe(connect.reload());
 });
@@ -51,7 +49,6 @@ gulp.task("css", ["scss"], function() {
 gulp.task("js", function() {
   gulp
     .src(configuration.paths.src.js)
-    // .pipe(concat("site.js"))
     .pipe(gulp.dest(configuration.paths.dist + "/js"))
     .pipe(connect.reload());
 });

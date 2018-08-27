@@ -9,10 +9,10 @@ body {
   box-sizing: border-box;
 }
 
-ul {
+ul#myUL {
   margin: 0;
   padding: 0;
-  li {
+  li.entries {
     cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;

@@ -15,9 +15,10 @@ var configuration = {
       html: "./app/*.html",
       css: "./app/css/styles.css",
       scss: "./app/scss/**/*.scss",
-      parts: "./app/parts/_template.njk",
+      parts: "./app/parts/*.njk",
       js: "./app/js/**/*.js",
-      data: "./app/data/*.json"
+      data: "./app/data/*.json",
+      assets: "./app/assets/*.png"
     },
     dist: "./dist"
   },
@@ -43,10 +44,17 @@ gulp.task("html", function() {
     .pipe(connect.reload());
 });
 
+gulp.task("assets", () => {
+  return gulp
+    .src(configuration.paths.src.assets)
+    .pipe(gulp.dest(configuration.paths.dist + "/assets"))
+    .pipe(connect.reload());
+});
+
 // Gulp task to convert SASS to CSS
 gulp.task("scss", function() {
   return gulp
-    .src("app/scss/**/*.scss")
+    .src(configuration.paths.src.scss)
     .pipe(sass())
     .pipe(gulp.dest("app/css"));
 });
@@ -91,7 +99,16 @@ gulp.task("watch", function() {
   gulp.watch(configuration.paths.src.js, ["js"]);
   gulp.watch(configuration.paths.src.parts, ["html"]);
   gulp.watch(configuration.paths.src.data, ["html"]);
+  gulp.watch(configuration.paths.src.assets, ["assets"]);
 });
 
 // Gulp default task
-gulp.task("default", ["html", "css", "js", "connect", "open", "watch"]);
+gulp.task("default", [
+  "html",
+  "css",
+  "js",
+  "assets",
+  "connect",
+  "open",
+  "watch"
+]);

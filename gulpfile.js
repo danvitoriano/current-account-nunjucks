@@ -14,9 +14,9 @@ var configuration = {
     src: {
       html: "./app/*.html",
       css: "./app/css/styles.css",
-      scss: "./app/scss/styles.scss",
+      scss: "./app/scss/**/*.scss",
       parts: "./app/parts/_template.njk",
-      js: "./app/js/*.js",
+      js: "./app/js/**/*.js",
       data: "./app/data/*.json"
     },
     dist: "./dist"

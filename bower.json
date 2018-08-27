@@ -1,0 +1,20 @@
+{
+  "name": "current-account-nunjucks",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Danilo Vitoriano <vitoriano08@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/danvitoriano/current-account-nunjucks",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "^5.5.3"
+  }
+}

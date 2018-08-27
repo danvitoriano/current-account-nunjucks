@@ -5,7 +5,14 @@
     <meta charset=utf-8>
     <title>{{ page_title }}</title>
     <link rel="stylesheet" href='css/styles.css' />
+    <script src="../js/vendor/jquery.min.js"></script>
+    <script src="../js/vendor/foundation.min.js"></script>
+    <script>
+    $(document).foundation();
+    </script>
 </head>
+
+{% include "parts/_header.njk" %}
 
 <!-- Slideshow container -->
 <div class="slideshow-container">
